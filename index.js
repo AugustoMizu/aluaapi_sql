@@ -16,7 +16,11 @@ app.post("/produto", (request, response)=>{
     const resultado = db.registraProduto(nome, preco, quantidade, categoria);
     response.status(201).send(resultado);
 });
+app.post("/produto/lista", (request, response)=>{
 
+    const resultado = db.listaProdutos();
+    response.json(resultado);
+});
 app.get("/", (request, response) => {
     response.json({
         message: "Está OK o Response!"

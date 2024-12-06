@@ -1,8 +1,8 @@
-import mysql from 'mysql2';
-import { Pool } from 'mysql2/typings/mysql/lib/Pool';
 
-import dotenv from 'dotenv';
-dotenv.config();
+require("dotenv").config();
+
+const mysql = require("mysql2/promise");
+//import { Pool } from 'mysql2/typings/mysql/lib/Pool';
 
 mysql.createPool({
     host: MYSQL_HOST,
@@ -11,19 +11,24 @@ mysql.createPool({
     database: MYSQL_DATABASE,
 }).promise();
 
-export async function registraProduto(nome, preco, quantidade, categoria) {
+ async function registraProduto(nome, preco, quantidade, categoria) {
     const resultado = await Pool.query("INSERT INTO produtos  (nome, preco, qunatidade, categoria) VALUES (?, ?, ?, ?)",
         [nome, preco, quantidade, categoria]);
     return resultado;
 }
 
-export async function listaProduto() {
+ async function listaProduto() {
     const [lista] = await Pool.query("SELECT * FROM produtos");
     return lista[0];
 }
 
-export async function listaProdutos() {
+ async function listaProdutos() {
     const [lista] = await Pool.query("SELECT * FROM produtos");
     return lista;
 }
 
+module.exports = {
+    registraProduto,
+    listaProduto,
+    listaProdutos
+}
